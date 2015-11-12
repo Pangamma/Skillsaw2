@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class ChannelCommand implements CommandExecutor {
 
@@ -46,6 +46,8 @@ public class ChannelCommand implements CommandExecutor {
 				case "-p":
 					runChannelPlayer(cs, stripArg(args));
 					return true;
+				case "list":
+				case "l":
 				case "-l":
 					runChannelList(cs, stripArg(args));
 					return true;
@@ -95,7 +97,7 @@ public class ChannelCommand implements CommandExecutor {
 		if (!STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_INFO)){
 			return;
 		}
-		
+
 		DataService system = plugin.getDataService();
 		String ch = args.length > 0 ? args[0] : null;
 		if (cs instanceof Player){
@@ -117,47 +119,50 @@ public class ChannelCommand implements CommandExecutor {
 			int numListening = 0;
 			int numSpeaking = 0;
 			Player.Spigot sp = p.spigot();
-			
-			for(User cp : cps){
+
+			for (User cp : cps){
 				if (cp.isSpeakingOnChannel(ch)){
 					numSpeaking++;
-					BaseComponent[] txt = CText.legacy(STATIC.C_MENU_CONTENT+cp.getName());
+					BaseComponent[] txt = CText.legacy(STATIC.C_MENU_CONTENT + cp.getName());
 					sp.sendMessage(txt);
 				}
-				if (cp.isListeningOnChannel(ch))
+				if (cp.isListeningOnChannel(ch)){
 					numListening++;
+				}
 			}
-			
+
 			p.sendMessage(STATIC.C_DIV_LINE);
-			p.sendMessage(STATIC.C_MENU_CONTENT+"# Listening: "+numListening);
-			p.sendMessage(STATIC.C_MENU_CONTENT+"# Speaking: "+numSpeaking);
+			p.sendMessage(STATIC.C_MENU_CONTENT + "# Listening: " + numListening);
+			p.sendMessage(STATIC.C_MENU_CONTENT + "# Speaking: " + numSpeaking);
 			p.sendMessage(STATIC.C_DIV_LINE);
-			
-		}else{
-			
+
+		}
+		else{
+
 			if (ch == null){
 				cs.sendMessage("Could not determine the channel you want info for.");
 				return;
 			}
-			
+
 			cs.sendMessage(STATIC.C_DIV_LINE_NC);
 			cs.sendMessage(STATIC.C_DIV_TITLE_PREFIX_NC + "Channl Info");
 			cs.sendMessage(STATIC.C_DIV_LINE_NC);
 			Collection<User> cps = system.getOnlineUsersReadOnly();
 			int numListening = 0;
 			int numSpeaking = 0;
-			
-			for(User cp : cps){
+
+			for (User cp : cps){
 				if (cp.isSpeakingOnChannel(ch)){
 					numSpeaking++;
-					cs.sendMessage(STATIC.C_MENU_CONTENT_NC+cp.getName());
+					cs.sendMessage(STATIC.C_MENU_CONTENT_NC + cp.getName());
 				}
-				if (cp.isListeningOnChannel(ch))
+				if (cp.isListeningOnChannel(ch)){
 					numListening++;
+				}
 			}
 			cs.sendMessage(STATIC.C_DIV_LINE_NC);
-			cs.sendMessage(STATIC.C_MENU_CONTENT_NC+"# Listening: "+numListening);
-			cs.sendMessage(STATIC.C_MENU_CONTENT_NC+"# Speaking: "+numSpeaking);
+			cs.sendMessage(STATIC.C_MENU_CONTENT_NC + "# Listening: " + numListening);
+			cs.sendMessage(STATIC.C_MENU_CONTENT_NC + "# Speaking: " + numSpeaking);
 			cs.sendMessage(STATIC.C_DIV_LINE_NC);
 		}
 	}
@@ -169,7 +174,7 @@ public class ChannelCommand implements CommandExecutor {
 		}
 
 		DataService system = plugin.getDataService();
-		
+
 		String pName = args.length > 0 ? args[0] : cs.getName();
 
 		// print info for that one player
@@ -182,7 +187,7 @@ public class ChannelCommand implements CommandExecutor {
 				return;
 			}
 			cs.sendMessage(STATIC.C_DIV_LINE);
-			cs.sendMessage(STATIC.C_MENU_CONTENT+"Chat info for: §a"+p.getName()+".");
+			cs.sendMessage(STATIC.C_MENU_CONTENT + "Chat info for: §a" + p.getName() + ".");
 			for (String ch : cp.getStickyChannels()){
 				cs.sendMessage(STATIC.C_MENU_CONTENT + "(L): " + ch);
 			}
@@ -218,7 +223,7 @@ public class ChannelCommand implements CommandExecutor {
 			if (!ch.startsWith("_")){
 				cs.sendMessage("§2=§7 " + speakers.get(ch) + " people on channel : " + ch);
 			}
-			else if (STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_LIST_PRIVATE,false)){
+			else if (STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_LIST_PRIVATE, false)){
 				cs.sendMessage("§2=§c " + speakers.get(ch) + " people on channel : " + ch);
 			}
 		}
@@ -227,7 +232,7 @@ public class ChannelCommand implements CommandExecutor {
 	}
 
 	private void runChannelPlus(CommandSender cs, String[] args){
-		
+
 		if (!STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_STICKIES)){
 			return;
 		}
@@ -244,7 +249,7 @@ public class ChannelCommand implements CommandExecutor {
 					}
 					cp.addStickyChannel(ch);
 					cs.sendMessage("§aAdded new \"sticky\" channel §2" + ChatColor.stripColor(ch));
-                    plugin.getDataService().saveUser(cp);
+					plugin.getDataService().saveUser(cp);
 				}
 				else{
 					p.sendMessage("§cMaximum number of sticky channels has been reached. You cannot add any more!");
@@ -272,7 +277,7 @@ public class ChannelCommand implements CommandExecutor {
 				String toRemove = args[0].toLowerCase();
 				if (cp.getStickyChannels().remove(toRemove)){
 					cs.sendMessage("§aRemoved \"sticky\" channel §2" + ChatColor.stripColor(toRemove));
-                    plugin.getDataService().saveUser(cp);
+					plugin.getDataService().saveUser(cp);
 				}
 				else{
 					cs.sendMessage("§cYou do not have the \"sticky\" channel §4" + ChatColor.stripColor(toRemove));
@@ -302,7 +307,7 @@ public class ChannelCommand implements CommandExecutor {
 			if (cp != null){
 				cp.setSpeakingChannel(ch);
 				cp.sendMessage(("§aSet the chat channel to §2" + ch));
-                plugin.getDataService().saveUser(cp);
+				plugin.getDataService().saveUser(cp);
 			}
 			else{
 				cs.sendMessage(STATIC.ERROR_TRY_AGAIN_LATER_COMMAND);

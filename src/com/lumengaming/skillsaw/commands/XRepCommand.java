@@ -2,11 +2,8 @@ package com.lumengaming.skillsaw.commands;
 
 import com.lumengaming.skillsaw.Main;
 import com.lumengaming.skillsaw.STATIC;
-import com.lumengaming.skillsaw.commands.IRepCommand;
 import com.lumengaming.skillsaw.model.RepType;
 import com.lumengaming.skillsaw.model.User;
-import com.lumengaming.skillsaw.model.User;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public class XRepCommand extends IRepCommand{
@@ -17,8 +14,8 @@ public class XRepCommand extends IRepCommand{
 
 	@Override
 	protected void printHelp(CommandSender cs){
-		cs.sendMessage(STATIC.C_ERROR+"/xrep <name>");
-		cs.sendMessage(STATIC.C_ERROR+"/xrep <name> <amount> <reason>");
+		cs.sendMessage("§c/xrep <name>");
+		cs.sendMessage("§c/xrep <name> <amount> <reason>");
 	}
 
 	@Override

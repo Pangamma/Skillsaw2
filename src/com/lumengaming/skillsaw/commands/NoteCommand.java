@@ -5,8 +5,6 @@ import com.lumengaming.skillsaw.STATIC;
 import com.lumengaming.skillsaw.model.RepType;
 import com.lumengaming.skillsaw.model.User;
 import com.lumengaming.skillsaw.service.DataService;
-import java.util.UUID;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

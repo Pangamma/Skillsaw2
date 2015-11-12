@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lumengaming.skillsaw;
 
 import java.io.BufferedReader;
@@ -29,35 +25,27 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class STATIC {
-
-	public static Main plugin = null;
-	public static boolean isCraftbukkitWorking = true;
-
+	
 	//<editor-fold defaultstate="collapsed" desc="colors & formatting">
-	public static final String C_ERROR = "§c";
-	public static final String C_DEBUG = "§c";
-	public static final String C_SUCCESS = "§a";
-	public static final String C_VOTIFIER = "§d";
-
+	
 	/**
 	 * the color used for the things being shown between the divider bars. §2=§7
 	 */
 	public static final String C_MENU_CONTENT = "§2=§7 ";
-	/**
-	 * the color used for the things being shown between the divider bars. §2=§7
-	 */
-	public static final String C_MENU_CONTENT_NC = "= ";
-
+	
 	/**
 	 * Use this color for alternating lists. Color used for things between the
 	 * divider bars. bars.§2=§f *
 	 */
 	public static final String C_MENU_CONTENT2 = "§2=§f ";
-
-	public static final String SKILLSAW_PREFIX = "[SkillSaw]";
+	
+	/**
+	 * the color used for the things being shown between the divider bars. §2=§7
+	 */
+	public static final String C_MENU_CONTENT_NC = "= ";
 
 	/**
 	 * §2=§e§l SkillSaw - * Start with a div line above this and end with a div
@@ -71,26 +59,17 @@ public class STATIC {
 	public static final String C_DIV_TITLE_PREFIX_NC = "= SkillSaw - ";
 
 	/**
-	 * uncolored. +---+*
-	 */
-	public static final String C_DIV_LINE_THIN = "+------------------------------------------------+";
-	/**
 	 * has no color by default.*
 	 */
 	public static final String C_DIV_LINE_NC = "=====================================================";
+	
 	/**
 	 * 53 things in length §2=§a=§2=§a=§2=§a=§2=....§2=§a=§2=§a=§2=§a=§2= *
 	 */
 	public static final String C_DIV_LINE = "§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=§a=§2=";
 
-	public static final String PLUGIN_NAME = "SkillSaw";
-	public static final String SUCCESS = ChatColor.GREEN + "SUCCESS!";
-	public static final String FAILURE = ChatColor.RED + "FAILURE.";
 	//</editor-fold>
 
-	/**
-	 * for telling users a feature is not ready, or has not been added in yet.*
-	 */
 	public static final String ERROR_NOT_YET_IMPLEMENTED = "§cThis feature isn't ready yet.";
 	public static final String ERROR_FEATURE_REMOVED = "§cThis feature isn't available for your current version.";
 	public static final String ERROR_P_NOT_FOUND = "§cThat player is not available.";
@@ -151,7 +130,7 @@ public class STATIC {
 
 	//<editor-fold defaultstate="collapsed" desc="permissions">
 	public static enum PERMISSION {
-
+		
 		ALL("Skillsaw.*"),
 		CHANNEL_ALL("Skillsaw.chat.*"),
 		CHANNEL_GLOBAL("Skillsaw.chat.global"),
@@ -177,21 +156,23 @@ public class STATIC {
 		REP_FIX("Skillsaw.xrep"),
 		REP_NOTE("Skillsaw.note"),
 		
-		
 		REVIEW_LIST("Skillsaw.review.list"),
 		REVIEW_THIS("Skillsaw.review.this"),
 		REVIEW_REMOVE_SELF("Skillsaw.review.remove.self"),
 		REVIEW_REMOVE_OTHERS("Skillsaw.review.remove.others"),
+		
 		/**
 		 * Allows someone to instruct in categories they have level 5 or higher
 		 * in.
 		 */
 		INSTRUCT("SkillSaw.instruct"),
+		
 		/**
 		 * the node required to NOT require being level 5 or higher in a
 		 * category *
 		 */
 		INSTRUCT_OVERRIDE("SkillSaw.instruct.override"),
+		
 		/**
 		 * /mee message *
 		 */
@@ -234,6 +215,7 @@ public class STATIC {
 		NICK_STYLE_FORMATTING("Skillsaw.nick.style.formatting"),
 		
 		STAFF_LIST("Skillsaw.staff.list"),
+		
 		/** For adding/removing from staff list */
 		STAFF_MODIFY("Skillsaw.staff.modify"),		
 		INSTRUCTORS_MODIFY("Skillsaw.instructors.modify"),
@@ -242,9 +224,7 @@ public class STATIC {
 		TITLE_SET_SELF("Skillsaw.title.set.self"),
 		TITLE_SET_OTHERS("Skillsaw.title.set.others"),
 		TITLE_EDIT_ANY("SkillSaw.title.edit.*"),
-		/** 'SkillSaw.title.edit' +'.' +(color-stripped title) **/
 		TITLE_EDIT_SPECIFIC("SkillSaw.title.edit"),
-		TITLE_CREATE_("SkillSaw.title.create."),
 		
 		VIEWLOGS_STAFF_REP("SkillSaw.viewlogs.staffrep"),
 		VIEWLOGS_NATURAL_REP("SkillSaw.viewlogs.naturalrep"),
@@ -253,6 +233,7 @@ public class STATIC {
 		CUSTOM_TITLES("Skillsaw.customtitles");
 
 		//<editor-fold defaultstate="collapsed" desc="methods">
+		
 		public String node = "SkillSaw.*";
 
 		/**
@@ -266,14 +247,13 @@ public class STATIC {
 		private PERMISSION(String node){
 			this.node = node;
 		}
+		
 		//</editor-fold>
 	}
     
-
 	public static String TELL_USER_LEVEL_THEY_LACK(int lvl){
 		return ChatColor.RED + "Sorry, it seems that you need to have a total rep level of " + lvl + " or higher to be able to use this command.";
 	}
-
             
 	public static String TELL_USER_PERMISSION_THEY_LACK(PERMISSION node)
 	{
@@ -324,52 +304,11 @@ public class STATIC {
 
 		return false;
 	}
-//	
-//	/**
-//	 * returns true if the user has one of the required permission nodes.*
-//	 */
-//	public static boolean USER_HAS_PERMISSION(CommandSender cs, PERMISSION perm1, PERMISSION perm2){
-//		return USER_HAS_PERMISSION(cs, perm1.node) || USER_HAS_PERMISSION(cs, perm2.node);
-//	}
-//	/**
-//	 * returns true if the user has a required permission node.*
-//	 */
-//	public static boolean USER_HAS_PERMISSION(CommandSender cs, String node)
-//	{
-//		return (cs.isOp())
-//				|| cs.hasPermission(node)
-//				|| cs.hasPermission(PERMISSION.ALL.toString());
-//	}
-//
-//	/**
-//	 * returns true if the user has a required permission node.*
-//	 */
-//	public static boolean USER_HAS_PERMISSION(CommandSender cs, String[] nodes)
-//	{
-//		for (String n : nodes)
-//		{
-//			if (cs.hasPermission(n))
-//			{
-//				return true;
-//			}
-//		}
-//		return (cs.isOp() || cs.hasPermission(PERMISSION.ALL.toString()));
-//	}
-//	public static boolean USER_HAS_PERMISSION(CommandSender cs, PERMISSION[] nodes)
-//	{
-//		for (PERMISSION n : nodes)
-//		{
-//			if (cs.hasPermission(n.node))
-//			{
-//				return true;
-//			}
-//		}
-//		return (cs.isOp() || cs.hasPermission(PERMISSION.ALL.toString()));
-//	}
-
-//</editor-fold>
+	//</editor-fold>
+	
 	/**
-	 * returns null if display name or regular name are not found. *
+	 * returns null if display name or regular name are not found. within online
+	 players list.
 	 */
 	public static Player getPlayer(String name){
 		name = name.toLowerCase();
@@ -400,8 +339,9 @@ public class STATIC {
 		t[4] = TimeUnit.MILLISECONDS.toSeconds(ms - TimeUnit.DAYS.toMillis(t[0]) - TimeUnit.HOURS.toMillis(t[1]) - TimeUnit.MINUTES.toMillis(t[2]) - TimeUnit.SECONDS.toMillis(t[3]));
 		return t;
 	}
+	
 	/** 
-	 * '5h 23m 22s'
+	 * '1d 5h 23m 22s'
 	 * @param ms
 	 * @return 
 	 */
@@ -589,9 +529,7 @@ public class STATIC {
 			Logger.getLogger(STATIC.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		catch (ParseException ex){
-//			Logger.getLogger(STATIC.class.getName()).log(Level.SEVERE, null, ex);
 			Logger.getLogger(STATIC.class.getName()).log(Level.WARNING, username + " <-- Failed to parse JSON response from Mojang. They probably do not have a current record for the username requested.");
-
 		}
 		catch (Exception ex){
 			Logger.getLogger(STATIC.class.getName()).log(Level.SEVERE, null, ex);

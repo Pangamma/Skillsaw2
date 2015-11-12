@@ -17,6 +17,7 @@ public class EffectUtils {
 		EffectUtils.playLevelUpEffect(p, subTitle);
 		p.sendMessage(sendInChat);
 	}
+	
 	/** If player is null, no action will be performed. **/
 	public static void playLevelUpEffect(Player p,String subTitle){
 		if (p == null){ return;}
@@ -38,11 +39,10 @@ public class EffectUtils {
 			data.setPower(0);
 			fw.setFireworkMeta(data);
 		}
-		// scold
-//		p().playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
 	}
 
-	public static void playVillagerSound(){
+	public static void playVillagerSound(Player p){
+		p.playSound(p.getLocation(), Sound.VILLAGER_IDLE,1F,1F);
 	}
 
 	public static void playLevelDownEffect(Player p, String subTitle){

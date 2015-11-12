@@ -1,7 +1,6 @@
 - Ability to see top users in each categories
 - Ability to view Example Build list (click to tp. Based on the promotions log table)
 - Build Team title management (clone / limited title creates)
-- See notes about the users
 - See entire rep log. 
 	- Support pagination.
 	- Filter by type (make this part hidden)

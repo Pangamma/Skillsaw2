@@ -5,13 +5,10 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 /**
- * Seriously. This is just a shorthand wrapper for componentbuilder. That is ALL
- * this class is good for.
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class CText extends ComponentBuilder{
 
@@ -24,7 +21,8 @@ public class CText extends ComponentBuilder{
     }
 
 	/** This method is horrible, but it does the job. Maybe one day I can fix
-	 * it. For now it just works.
+	 * it. For now it just works. It fixes a glitch in the core game where 
+	 * colored chat stops being colored after it spans more than one line.
 	 * @param orig
 	 * @return 
 	 */
@@ -96,8 +94,6 @@ public class CText extends ComponentBuilder{
 		}
 	}
 	
-
-	
 	/**
 	 * Creates hover text easily.
 	 * @return 
@@ -118,6 +114,7 @@ public class CText extends ComponentBuilder{
 		CText.applyEvent(txt, new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, commandText));
 		return txt;
 	}	
+	
 	/**
 	 * Creates hover text easily. Click event runs the command.
 	 * @return 

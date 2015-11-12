@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
  * without worrying about whether the command sender is a Player or not.
  * This class automatically sends a correct message depending on what
  * the command sender is.
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class CsWrapper {
 	private final Player p;

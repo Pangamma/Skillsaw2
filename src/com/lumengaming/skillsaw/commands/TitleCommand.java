@@ -1,6 +1,8 @@
 package com.lumengaming.skillsaw.commands;
 
-import com.lumengaming.skillsaw.*;
+import com.lumengaming.skillsaw.CText;
+import com.lumengaming.skillsaw.Main;
+import com.lumengaming.skillsaw.STATIC;
 import com.lumengaming.skillsaw.model.Title;
 import com.lumengaming.skillsaw.model.User;
 import com.lumengaming.skillsaw.service.DataService;
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class TitleCommand implements CommandExecutor {
 
@@ -35,13 +36,9 @@ public class TitleCommand implements CommandExecutor {
 		}
 
 		try{
-            //<editor-fold defaultstate="collapsed" desc="Permissions">
             boolean canSetSelf = STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.TITLE_SET_SELF,false);
             boolean canSetOthers = STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.TITLE_SET_OTHERS,false);
-            // Further checked against edit self / edit others. 
-//            boolean canEditAnyTitle =  STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.TITLE_EDIT_ANY);
-            
-            //</editor-fold>
+			
 			//<editor-fold defaultstate="collapsed" desc="Init some stuff">
 			final boolean isTargetSelf;
 			final String targetName;
@@ -78,7 +75,7 @@ public class TitleCommand implements CommandExecutor {
 			else
 			{
 				isTargetSelf = false;
-				targetName = STATIC.getFullNameOfPlayer(args[0]);
+				targetName = STATIC.getFullNameIfOnlinePlayer(args[0]);
 				action = args[1].toLowerCase();
 			}
 			//</editor-fold>
@@ -218,7 +215,6 @@ public class TitleCommand implements CommandExecutor {
 						}
 					}
 				}
-
 			});
 		}
 		catch (ArrayIndexOutOfBoundsException ex){
@@ -241,15 +237,15 @@ public class TitleCommand implements CommandExecutor {
 
 	public void printHelp(CommandSender cs){
 //		if (STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CUSTOM_TITLES.node)){
-			cs.sendMessage(STATIC.C_ERROR + "/title add <short title> <long title>");
-			cs.sendMessage(STATIC.C_ERROR + "/title remove <short/long title>");
-			cs.sendMessage(STATIC.C_ERROR + "/title username list");
-			cs.sendMessage(STATIC.C_ERROR + "/title username <short/long title>");
-			cs.sendMessage(STATIC.C_ERROR + "/title username add <short title> <long title>");
-			cs.sendMessage(STATIC.C_ERROR + "/title username remove <short/long title>");
+			cs.sendMessage("§c/title add <short title> <long title>");
+			cs.sendMessage("§c/title remove <short/long title>");
+			cs.sendMessage("§c/title username list");
+			cs.sendMessage("§c/title username <short/long title>");
+			cs.sendMessage("§c/title username add <short title> <long title>");
+			cs.sendMessage("§c/title username remove <short/long title>");
 //		}
-		cs.sendMessage(STATIC.C_ERROR + "/title list");
-		cs.sendMessage(STATIC.C_ERROR + "/title <title>");
+		cs.sendMessage("§c/title list");
+		cs.sendMessage("§c/title <title>");
 	}
 
 }

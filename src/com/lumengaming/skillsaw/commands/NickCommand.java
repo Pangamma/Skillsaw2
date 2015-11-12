@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lumengaming.skillsaw.commands;
 
 import com.lumengaming.skillsaw.Main;
@@ -17,7 +12,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class NickCommand implements CommandExecutor{
 	private final Main plugin;
@@ -60,7 +55,7 @@ public class NickCommand implements CommandExecutor{
 				}
 			}else if (args.length == 2){
 				nick = args[1];
-				String fName = STATIC.getFullNameOfPlayer(args[0]);
+				String fName = STATIC.getFullNameIfOnlinePlayer(args[0]);
 				
 				if (canNickOthers || (canNickSelf && fName != null && cs.getName().equalsIgnoreCase(fName))){
 					if (fName != null){
@@ -90,7 +85,7 @@ public class NickCommand implements CommandExecutor{
 			}
 			
 			if (ChatColor.stripColor(nick).length() > 16){
-				cs.sendMessage(STATIC.C_ERROR+"Nickname must not exceed 16 visible characters.");
+				cs.sendMessage("§cNickname must not exceed 16 visible characters.");
 				return false;
 			}
 			target.setDisplayName(nick);
@@ -109,8 +104,8 @@ public class NickCommand implements CommandExecutor{
 	}
 
 	private void printHelp(CommandSender cs){
-		cs.sendMessage(STATIC.C_ERROR+"/nick [target name] <nickname>");
-		cs.sendMessage(STATIC.C_ERROR+"You can give yourself a nickname. Example : My name is §fPangamma§c,"
+		cs.sendMessage("§c/nick [target name] <nickname>");
+		cs.sendMessage("§cYou can give yourself a nickname. Example : My name is §fPangamma§c,"
 				+ " but I want it to be §6RockLobster§c. I would type \"§e/nick &6RockLobster§c\".");
 	}
 	

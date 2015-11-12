@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lumengaming.skillsaw.repository;
 
 import com.lumengaming.skillsaw.model.RepLogEntry;
@@ -15,7 +10,7 @@ import org.bukkit.Location;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public interface IDataRepository {
 	

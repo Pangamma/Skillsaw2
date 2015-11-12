@@ -7,7 +7,6 @@ import com.lumengaming.skillsaw.model.RepLogEntry;
 import com.lumengaming.skillsaw.model.RepType;
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
-import com.lumengaming.skillsaw.model.User;
 import com.lumengaming.skillsaw.repository.IDataRepository;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -19,7 +18,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class DataService {
 

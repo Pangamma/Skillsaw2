@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public final class User {
 
@@ -392,7 +392,9 @@ public final class User {
 	 * amount the target can receive. *
 	 */
 	public synchronized double addNaturalRep(double amount){
-		EffectUtils.playVillagerSound();
+		if (p() != null && p().isValid()){
+			EffectUtils.playVillagerSound(p());
+		}
 		this.nRep += amount;
 		int oLevel = this.LEVEL;
 		this.LEVEL = User.calculateRepLevel(nRep);

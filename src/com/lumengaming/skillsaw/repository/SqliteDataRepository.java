@@ -12,7 +12,7 @@ import org.bukkit.Location;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class SqliteDataRepository implements IDataRepository{
 	private final File f;

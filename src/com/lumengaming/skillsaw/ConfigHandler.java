@@ -2,10 +2,8 @@ package com.lumengaming.skillsaw;
 
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
-import com.lumengaming.skillsaw.repository.FlatFileDataRepository;
 import com.lumengaming.skillsaw.repository.MySqlDataRepository;
 import com.lumengaming.skillsaw.repository.TestDataRepository;
-import com.lumengaming.skillsaw.repository.SqliteDataRepository;
 import com.lumengaming.skillsaw.service.DataService;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 
 /**
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class ConfigHandler {
 	

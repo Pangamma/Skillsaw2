@@ -22,7 +22,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class ReviewCommand implements CommandExecutor {
 
@@ -118,7 +118,7 @@ public class ReviewCommand implements CommandExecutor {
 					String strike = r.visitors.contains(cs.getName()) ? "§m" : "";
 					String msg = STATIC.C_MENU_CONTENT + strike + r.getRequester() + " @ " + ((System.currentTimeMillis() - r.getTimeOfReq()) / 3600000) + "h " + ((System.currentTimeMillis() - r.getTimeOfReq()) / 60000) + "m";
 					BaseComponent[] text = CText.hoverText(msg, "Click to teleport");
-					CText.applyEvent(text, new ClickEvent(Action.RUN_COMMAND, "/rev tp "+r.getRequester()));
+					CText.applyEvent(text, new ClickEvent(Action.RUN_COMMAND, "/rev tp " + r.getRequester()));
 					results.add(text);
 				}
 				CsWrapper cw = new CsWrapper(cs);
@@ -150,7 +150,7 @@ public class ReviewCommand implements CommandExecutor {
 				//<editor-fold defaultstate="collapsed" desc="teleport">
 				if (args.length == 1){
 					if (requests.isEmpty()){
-						cs.sendMessage(STATIC.C_ERROR + "There are no review requests right now.");
+						cs.sendMessage("§cThere are no review requests right now.");
 					}
 					else{
 						ReviewRequest match = null;
@@ -161,7 +161,7 @@ public class ReviewCommand implements CommandExecutor {
 							}
 						}
 						if (match == null){
-							cs.sendMessage(STATIC.C_ERROR + "There are no review requests right now. Go build!");
+							cs.sendMessage("§cThere are no review requests right now. Go build!");
 							match = requests.getFirst();
 						}
 						else{
@@ -171,7 +171,7 @@ public class ReviewCommand implements CommandExecutor {
 					}
 				}
 				else if (args.length != 2){
-					cs.sendMessage(STATIC.C_ERROR + "/review tp [name of person]");
+					cs.sendMessage("§c/review tp [name of person]");
 				}
 				else{
 					ReviewRequest failureModeMatch = null;
@@ -194,7 +194,7 @@ public class ReviewCommand implements CommandExecutor {
 						failureModeMatch.logReviewTeleportVisit(p);
 					}
 					else{
-						cs.sendMessage(STATIC.C_ERROR + "There wasn't any review in the public review list under that name. Check to see which people are awaiting reviews. §4/review list");
+						cs.sendMessage("§cThere wasn't any review in the public review list under that name. Check to see which people are awaiting reviews. §4/review list");
 					}
 				}
 				//</editor-fold>
@@ -220,13 +220,15 @@ public class ReviewCommand implements CommandExecutor {
 					}
 					if (this.requests.remove(new ReviewRequest(args[1], p.getLocation()))){
 						cs.sendMessage("§2Review removed from the list.");
-					}else{
-						cs.sendMessage("§cCouldn't find a review with the poster's name: '"+args[1]+"'.");
 					}
-				}else{
-                    if (!STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.REVIEW_REMOVE_SELF)){
-                        return false;
-                    }
+					else{
+						cs.sendMessage("§cCouldn't find a review with the poster's name: '" + args[1] + "'.");
+					}
+				}
+				else{
+					if (!STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.REVIEW_REMOVE_SELF)){
+						return false;
+					}
 					this.requests.remove(new ReviewRequest(p.getName(), p.getLocation()));
 					cs.sendMessage("§2Review removed from the list.");
 				}
@@ -275,26 +277,28 @@ public class ReviewCommand implements CommandExecutor {
 		public long getTimeOfReq(){
 			return timeOfReq;
 		}
-        
-        /** Returns this.requester **/
-        @Override
-        public String toString(){
-            return this.requester;
-        }
+
+		/**
+		 * Returns this.requester *
+		 */
+		@Override
+		public String toString(){
+			return this.requester;
+		}
 
 		/**
 		 * only compares the name of the requester, because there will only be
 		 * one request per user at any given time. *
 		 */
-        @Override
+		@Override
 		public boolean equals(Object o){
-            if (o != null){
-                if (o instanceof ReviewRequest){
-                    ReviewRequest req = (ReviewRequest) o;
-                    return this.requester.equalsIgnoreCase(req.requester);
-                }
-            }
-            return false;
+			if (o != null){
+				if (o instanceof ReviewRequest){
+					ReviewRequest req = (ReviewRequest) o;
+					return this.requester.equalsIgnoreCase(req.requester);
+				}
+			}
+			return false;
 		}
 
 		/**
@@ -302,9 +306,9 @@ public class ReviewCommand implements CommandExecutor {
 		 * teleport to this review request. *
 		 */
 		public void logReviewTeleportVisit(Player p){
-			p.sendMessage(STATIC.C_SUCCESS + "Teleported to " + getRequester() + "'s submission. Review it with the /rep command if you are feeling generous.");
+			p.sendMessage("§aTeleported to " + getRequester() + "'s submission. Review it with the /rep command if you are feeling generous.");
 			if (!this.visitors.contains(p.getName())){
-				User visitor = plugin.getDataService().getUser(p.getName());			
+				User visitor = plugin.getDataService().getUser(p.getName());
 				if (visitor == null){
 					// Let them teleport to the location again if they want the rep...
 					// otherwise just let them do their visit, but don't try to give
@@ -331,8 +335,8 @@ public class ReviewCommand implements CommandExecutor {
 				}
 				visitor.addNaturalRep(bonusToGive);
 				p.sendMessage("§2Randomly awarded " + bonusToGive + " rep for visiting this review request! :D");
-                plugin.getDataService().saveUser(visitor);
-            }
+				plugin.getDataService().saveUser(visitor);
+			}
 		}
 
 		public boolean hasVisited(String name){
@@ -342,10 +346,10 @@ public class ReviewCommand implements CommandExecutor {
 //</editor-fold>
 
 	public void printHelp(CommandSender cs){
-		cs.sendMessage(STATIC.C_ERROR + "/review this");
-		cs.sendMessage(STATIC.C_ERROR + "/review remove [name]");
-		cs.sendMessage(STATIC.C_ERROR + "/review l[ist]");
-		cs.sendMessage(STATIC.C_ERROR + "/review tp [name]");
-		cs.sendMessage(STATIC.C_ERROR + "/review clear");
+		cs.sendMessage("§c/review this");
+		cs.sendMessage("§c/review remove [name]");
+		cs.sendMessage("§c/review l[ist]");
+		cs.sendMessage("§c/review tp [name]");
+		cs.sendMessage("§c/review clear");
 	}
 }

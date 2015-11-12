@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lumengaming.skillsaw.commands;
 
 import com.lumengaming.skillsaw.Main;
@@ -23,8 +18,8 @@ public class NaturalRepCommand extends IRepCommand{
 
 	@Override
 	protected void printHelp(CommandSender cs){
-		cs.sendMessage(STATIC.C_ERROR + "/rep <target>");
-		cs.sendMessage(STATIC.C_ERROR + "/rep <target> <amount> <reason>");
+		cs.sendMessage("§c/rep <target>");
+		cs.sendMessage("§c/rep <target> <amount> <reason>");
 	}
 
 	@Override

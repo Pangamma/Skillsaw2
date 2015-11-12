@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lumengaming.skillsaw.commands;
 
 import com.lumengaming.skillsaw.Main;
 import com.lumengaming.skillsaw.STATIC;
-import com.lumengaming.skillsaw.commands.IRepCommand;
 import com.lumengaming.skillsaw.model.RepType;
 import com.lumengaming.skillsaw.model.User;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class StaffRepCommand extends IRepCommand{
 
@@ -25,8 +18,8 @@ public class StaffRepCommand extends IRepCommand{
 
 	@Override
 	protected void printHelp(CommandSender cs){
-		cs.sendMessage(STATIC.C_ERROR + "/srep <target>");
-		cs.sendMessage(STATIC.C_ERROR + "/srep <target> <amount> <reason>");
+		cs.sendMessage("§c/srep <target>");
+		cs.sendMessage("§c/srep <target> <amount> <reason>");
 	}
 
 	@Override
@@ -43,7 +36,7 @@ public class StaffRepCommand extends IRepCommand{
 			
 			// Cap amount of rep to send.
 			if (Math.abs(amount) > 10 ){
-				cs.sendMessage(STATIC.C_ERROR+"Remember that staff rep is weighted differently than natural rep. Do not give over powered amounts of rep! (+- 1 is recommended.)");
+				cs.sendMessage("§cRemember that staff rep is weighted differently than natural rep. Do not give over powered amounts of rep! (+- 1 is recommended.)");
 				return false;
 			}
 			

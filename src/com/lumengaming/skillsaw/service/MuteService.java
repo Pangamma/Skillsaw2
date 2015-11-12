@@ -4,9 +4,14 @@ import com.lumengaming.skillsaw.Main;
 import com.lumengaming.skillsaw.model.MutedPlayer;
 import java.util.TreeSet;
 
-
+/**
+ *
+ * @author Taylor Love (Pangamma)
+ */
 public final class MuteService {
+	
 	TreeSet<MutedPlayer> mutedChatPlayers = new TreeSet<>();	
+	
 	private final Main plugin;
 	
 	public MuteService(Main sc){
@@ -41,6 +46,8 @@ public final class MuteService {
 		}
 		this.mutedChatPlayers.removeAll(toRemove);
 	}
+	
+	
 	/** Checks non case sensitive username **/
 	public synchronized boolean isMuted(String username){
 		return this.mutedChatPlayers.contains(new MutedPlayer(username));

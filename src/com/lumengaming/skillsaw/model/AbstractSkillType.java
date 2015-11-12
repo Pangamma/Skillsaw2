@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public abstract class AbstractSkillType {
     protected int minLevel = 0;

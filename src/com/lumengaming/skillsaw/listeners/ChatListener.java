@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class ChatListener implements Listener {
 
@@ -85,6 +85,7 @@ public class ChatListener implements Listener {
 		}
 		sendMessageToChannelAndFormatIt(p, rawMessage,u.getSpeakingChannel());
 	}
+	
 	private void sendMessageToChannelAndFormatIt(final Player p, final String rawMessage,final String p_channel){
 		final String fChannel = p_channel.toLowerCase();
 		Bukkit.getScheduler().runTask(plugin, 
@@ -170,6 +171,7 @@ public class ChatListener implements Listener {
 		
 		plugin.getDataService().sendMessageToChannel(p.getName(), p_channel, output);
 	}
+	
 	private void doNamePingIfNamed(String ch,String senderName, String rawMessage){
 		rawMessage = ChatColor.stripColor(rawMessage.replace('&','§'));
 		ArrayList<User> onlineUsersReadOnly = plugin.getDataService().getOnlineUsersReadOnly();

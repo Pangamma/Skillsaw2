@@ -22,7 +22,7 @@ import org.bukkit.Location;
 
 /**
  *
- * @author Taylor
+ * @author Taylor Love (Pangamma)
  */
 public class MySqlDataRepository implements IDataRepository {
 

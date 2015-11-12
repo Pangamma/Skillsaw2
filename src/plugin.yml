@@ -1,0 +1,62 @@
+name: Skillsaw2
+version: 1.0
+author: Pangamma
+website: LumenGaming.com
+main: com.lumengaming.skillsaw.Main
+description: A better system of showing skill level.
+depend: []
+commands:
+  skillsaw:
+    description: 'help'
+    aliases: ['ssaw','skills','skill','skillsaw2','ss']
+  testlock:
+    description: 'Lock the main thread.'
+  setskill:
+    description: 'for moderators only. Allows you to set the skill level for a user.'
+    aliases: ['skillset']
+  title:
+    description: 'set in game group name.'
+    aliases: ['title']
+  rep-natural:
+    description: 'natural rep'
+    aliases: ['rep-nat','rep','rep-n',nrep,rep-natural]
+  rep-fix:
+    description: 'for fixing rep or disciplinary action.'
+    aliases: ['xrep','repx']
+  rep-staff:
+    description: 'staff rep'
+    aliases: ['rep-s','s-rep','srep']
+  rep-note:
+    description: 'View notes on users.'
+    aliases: ['note']
+  nick:
+    aliases: ['nickname']
+  review:
+    aliases: ['rev','revew']
+  congratulate:
+    description: 'help'
+    aliases: ['grats','congrats','praise','congratulations']
+  scold:
+    aliases: ['unpraise','boo']
+  channel:
+    aliases: ['ch']
+  mee:
+    aliases: ['me']
+  mute:
+    aliases: ['unmute','softmute','smute']
+  ignore:
+    description: 'Ignore up to 10 players'
+  global:
+    description: 'Chat on the global channel.'
+    aliases: ['g']
+  chatcolor:
+    description: 'Changes your default chat color.'
+  replog:
+    description: 'View logs for a player. Rep logs.'
+    aliases: ['sreplog','xreplog','notes']
+  staff:
+    description: 'find staff, manage staff membership'
+    aliases: ['staff','setstaff','staffset']
+  instructor:
+    description: 'find staff, manage staff membership'
+    aliases: ['instructors','instr','instruct','inst']

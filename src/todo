@@ -1,0 +1,18 @@
+- Ability to see top users in each categories
+- Ability to view Example Build list (click to tp. Based on the promotions log table)
+- Build Team title management (clone / limited title creates)
+- See notes about the users
+- See entire rep log. 
+	- Support pagination.
+	- Filter by type (make this part hidden)
+- Support specialized skill titles based on level in skill. 
+	- PixelGodT10
+	- TerrorFormerT10
+	- Maybe do this on a case by case basis. Hmm. 
+- Ability to do server-wide broadcasts (for buildoffs)
+- List instructors (ordered by most recently online, filtered by category)
+- List of ALL staff /staff
+x Set login messages for yourself or others. 
+x Set chat bracket colors per user or something. 
+- Set special staff ranks to show up in chat. 
+- Fail-safe saving

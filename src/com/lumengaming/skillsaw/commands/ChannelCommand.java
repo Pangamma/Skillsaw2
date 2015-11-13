@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author Taylor Love (Pangamma)
+ * @author Taylor
  */
 public class ChannelCommand implements CommandExecutor {
 
@@ -35,24 +35,32 @@ public class ChannelCommand implements CommandExecutor {
 			// Otherwise see if they used the in-command thing with arg[0]
 			switch (args[0].toLowerCase()){
 				case "+":
+				case "add":
 					runChannelPlus(cs, stripArg(args));
 					return true;
+				case "*":
+					runChannelPlus(cs, new String[] { "*" });
+					return true;
+				case "!*":
+					runChannelMinus(cs, new String[] { "*" });
+					return true;
 				case "-":
+				case "remove":
 					runChannelMinus(cs, stripArg(args));
 					return true;
-				case "-i":
+				case "info":
+				case "i":
+				case "?":
 					runChannelInfo(cs, stripArg(args));
 					return true;
-				case "-p":
+				case "pinfo":
+				case "p":
+				case "?p":
 					runChannelPlayer(cs, stripArg(args));
 					return true;
 				case "list":
 				case "l":
-				case "-l":
-					runChannelList(cs, stripArg(args));
-					return true;
-				case "=":
-					runChannelSet(cs, stripArg(args));
+					runChannelList(cs, args);
 					return true;
 				default:
 					runChannelSet(cs, args);
@@ -85,10 +93,11 @@ public class ChannelCommand implements CommandExecutor {
 		cs.sendMessage(("§c/ch:<channel> <message>"));
 		cs.sendMessage(("§c/ch + <channel>"));
 		cs.sendMessage(("§c/ch - <channel>"));
-		cs.sendMessage(("§c/ch = <channel>"));
-		cs.sendMessage(("§c/ch -i [channel]"));
-		cs.sendMessage(("§c/ch -p [player]"));
-		cs.sendMessage(("§c/ch -L"));
+		cs.sendMessage(("§c/ch *"));
+		cs.sendMessage(("§c/ch !*"));
+		cs.sendMessage(("§c/ch info [channel]"));
+		cs.sendMessage(("§c/ch p [player]"));
+		cs.sendMessage(("§c/ch list"));
 		cs.sendMessage(("§c/ch <channel>"));
 	}
 
@@ -204,7 +213,6 @@ public class ChannelCommand implements CommandExecutor {
 		if (!STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_LIST)){
 			return;
 		}
-
 		ArrayList<User> users = plugin.getDataService().getOnlineUsersReadOnly();
 		HashMap<String, Integer> speakers = new HashMap<>();
 		for (User cp : users){
@@ -221,10 +229,10 @@ public class ChannelCommand implements CommandExecutor {
 		cs.sendMessage(STATIC.C_DIV_LINE);
 		for (String ch : speakers.keySet()){
 			if (!ch.startsWith("_")){
-				cs.sendMessage("§2=§7 " + speakers.get(ch) + " people on channel : " + ch);
+				cs.sendMessage("§2=§7 " + ch + " (" + speakers.get(ch) + " people)");
 			}
 			else if (STATIC.USER_HAS_PERMISSION(cs, STATIC.PERMISSION.CHANNEL_LIST_PRIVATE, false)){
-				cs.sendMessage("§2=§c " + speakers.get(ch) + " people on channel : " + ch);
+				cs.sendMessage("§2=§c " + ch + " (" + speakers.get(ch) + " people)");
 			}
 		}
 		cs.sendMessage(STATIC.C_DIV_LINE);

@@ -22,7 +22,7 @@ import org.bukkit.Location;
 
 /**
  *
- * @author Taylor Love (Pangamma)
+ * @author Taylor
  */
 public class MySqlDataRepository implements IDataRepository {
 
@@ -566,7 +566,9 @@ public class MySqlDataRepository implements IDataRepository {
 		if (s != null){
 			String[] split = s.replace("\r", "").split("\n");
 			for (String line : split){
-				output.add(line.trim());
+				if (!line.trim().isEmpty()){
+					output.add(line.trim());
+				}
 			}
 		}
 		return output;
@@ -584,6 +586,4 @@ public class MySqlDataRepository implements IDataRepository {
 		}
 		return output;
 	}
-
-
 }

@@ -11,32 +11,32 @@ import org.bukkit.entity.Player;
  * @author Taylor Love (Pangamma)
  */
 public class CsWrapper {
-	private final Player p;
-	private final CommandSender cs;
-	public CsWrapper(CommandSender cs){
-		this.cs = cs;
-		if (cs instanceof Player){
-			this.p = (Player) cs;
-		}else{
-			this.p = null;
-		}
-	}
-	public void sendMessage(String s){
-		this.cs.sendMessage(s);
-	}
-	public void sendMessage(BaseComponent[] msg){
-		if (p != null){
-			p.spigot().sendMessage(msg);
-		}else{
-			String s = "";
-			for(BaseComponent bc : msg){
-				s  += bc.toLegacyText();
-			}
-			cs.sendMessage(s);
-		}
-	}
+    private final Player p;
+    private final CommandSender cs;
+    public CsWrapper(CommandSender cs){
+        this.cs = cs;
+        if (cs instanceof Player){
+            this.p = (Player) cs;
+        }else{
+            this.p = null;
+        }
+    }
+    public void sendMessage(String s){
+        this.cs.sendMessage(s);
+    }
+    public void sendMessage(BaseComponent[] msg){
+        if (p != null){
+            p.spigot().sendMessage(msg);
+        }else{
+            String s = "";
+            for(BaseComponent bc : msg){
+                s  += bc.toLegacyText();
+            }
+            cs.sendMessage(s);
+        }
+    }
 
-	public CommandSender getCs(){
-		return this.cs;
-	}
+    public CommandSender getCs(){
+        return this.cs;
+    }
 }

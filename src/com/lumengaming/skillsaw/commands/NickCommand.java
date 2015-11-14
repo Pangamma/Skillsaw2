@@ -15,38 +15,38 @@ import org.bukkit.command.CommandSender;
  * @author Taylor Love (Pangamma)
  */
 public class NickCommand implements CommandExecutor{
-	private final Main plugin;
-	private final DataService dh;
-	public NickCommand(Main p_plugin){
-		this.plugin = p_plugin;
-		this.dh = plugin.getDataService();
-	}
-	
-	@Override
-	public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] args){
-		boolean canNickSelf = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_SELF,false);
-		boolean canNickOthers = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_OTHERS,false);
-		boolean canNickColors = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_COLORS,false);
-		boolean canNickBlack = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_COLOR_BLACK,false);
-		boolean canNickFormat = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_FORMATTING,false);
-		boolean canNickSpecialChars = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_SPECIAL_CHARS,false);
-		
-		
-		User issuer = dh.getUser(cs.getName());
-		if (issuer == null){
-			cs.sendMessage(STATIC.ERROR_TRY_AGAIN_LATER_COMMAND);
-			return true;
-		}
-		
-		int issuerLevel = issuer.getRepLevel();
-		if (!canNickSelf && issuerLevel >= 4){ canNickSelf = true; }
-			
-			
-		try{
-			String nick = "";
-			User target = null;
-			if (args.length == 1){
-				if (canNickSelf){
+    private final Main plugin;
+    private final DataService dh;
+    public NickCommand(Main p_plugin){
+        this.plugin = p_plugin;
+        this.dh = plugin.getDataService();
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] args){
+        boolean canNickSelf = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_SELF,false);
+        boolean canNickOthers = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_OTHERS,false);
+        boolean canNickColors = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_COLORS,false);
+        boolean canNickBlack = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_COLOR_BLACK,false);
+        boolean canNickFormat = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_FORMATTING,false);
+        boolean canNickSpecialChars = STATIC.USER_HAS_PERMISSION(cs, PERMISSION.NICK_STYLE_SPECIAL_CHARS,false);
+        
+        
+        User issuer = dh.getUser(cs.getName());
+        if (issuer == null){
+            cs.sendMessage(STATIC.ERROR_TRY_AGAIN_LATER_COMMAND);
+            return true;
+        }
+        
+        int issuerLevel = issuer.getRepLevel();
+        if (!canNickSelf && issuerLevel >= 4){ canNickSelf = true; }
+            
+            
+        try{
+            String nick = "";
+            User target = null;
+            if (args.length == 1){
+                if (canNickSelf){
 					nick = args[0];
 					target = issuer;
 				}else{

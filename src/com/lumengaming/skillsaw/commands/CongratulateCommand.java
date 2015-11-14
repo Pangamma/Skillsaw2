@@ -10,15 +10,15 @@ import org.bukkit.command.CommandSender;
  * @author Taylor Love (Pangamma)
  */
 public class CongratulateCommand implements CommandExecutor{
-	private final Main plugin;
+    private final Main plugin;
 
-	public CongratulateCommand(Main plug){
-		this.plugin = plug;
-	}
-	
-	@Override
-	public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings){
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-	
+    public CongratulateCommand(Main plug){
+        this.plugin = plug;
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

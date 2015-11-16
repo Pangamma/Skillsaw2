@@ -58,12 +58,20 @@ public class MuteCommand implements CommandExecutor {
                     }
                 }
             }
-            else{
+			else {
                 MutedPlayer mp = system.removeMutedPlayer(new MutedPlayer(name));
-                cs.sendMessage("§aUnmuted '" + name + "'.");
-                if (p != null && mp != null && !mp.isSoftMute()){
-                    p.sendMessage("§aUnmuted.");
-                }
+				if (mp != null){
+					cs.sendMessage("§aUnmuted '" + name + "'.");
+					if (p != null){
+						if (!mp.isSoftMute()){
+							p.sendMessage("§aUnmuted.");
+						}else{
+							p.sendMessage("§7You can talk again. :)");
+						}
+					}
+				}else{
+					cs.sendMessage("§cThat player isn't muted.");
+				}
             }
 
         }

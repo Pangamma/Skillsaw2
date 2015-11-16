@@ -32,7 +32,9 @@ public final class MuteService {
 				if (mp.equals(mpF)){ mpR = mpF; break; }
 			}
 		}
-		this.mutedChatPlayers.remove(mp);
+		if (mpR != null){
+			this.mutedChatPlayers.remove(mpR);
+		}
 		return mpR;
 	}
 	

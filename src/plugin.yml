@@ -43,7 +43,9 @@ commands:
   mee:
     aliases: ['me']
   mute:
-    aliases: ['unmute','softmute','smute']
+    aliases: ['softmute','smute']
+  unmute:
+    description: 'Undo a mute'
   ignore:
     description: 'Ignore up to 10 players'
   global:

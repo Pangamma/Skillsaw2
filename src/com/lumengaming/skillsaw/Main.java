@@ -20,6 +20,7 @@ public class Main extends JavaPlugin {
     private ConfigHandler config;
     private DataService dataService;
     private MuteService muteService;
+	private MuteCommand muteCommand;
 
     public void onEnable(){
         this.config = new ConfigHandler(this).load();
@@ -38,7 +39,9 @@ public class Main extends JavaPlugin {
         getCommand("review").setExecutor(new ReviewCommand(this));
         getCommand("ignore").setExecutor(new IgnoreCommand(this));
         getCommand("mee").setExecutor(new MeeCommand(this));
-        getCommand("mute").setExecutor(new MuteCommand(this));
+		this.muteCommand = new MuteCommand(this);
+        getCommand("mute").setExecutor(muteCommand);
+        getCommand("unmute").setExecutor(muteCommand);
         getCommand("rep-natural").setExecutor(new NaturalRepCommand(this));
         getCommand("nick").setExecutor(new NickCommand(this));
         getCommand("rep-note").setExecutor(new NoteCommand(this));

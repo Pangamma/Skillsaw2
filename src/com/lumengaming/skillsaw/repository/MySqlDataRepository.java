@@ -3,6 +3,7 @@ package com.lumengaming.skillsaw.repository;
 import com.lumengaming.skillsaw.Main;
 import com.lumengaming.skillsaw.model.RepLogEntry;
 import com.lumengaming.skillsaw.model.RepType;
+import com.lumengaming.skillsaw.model.ScavengerHuntLogEntry;
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.Title;
 import com.lumengaming.skillsaw.model.User;
@@ -558,6 +559,33 @@ public class MySqlDataRepository implements IDataRepository {
 		}
 	}
 
+	public void logScavengerHuntEntry(ScavengerHuntLogEntry e){
+		String q = "INSERT INTO `skillsaw`.`scavenger_hunt` "
+				+ "(`username`, `uuid`, `group_key`, `item_key`, `command_sender`, `world`, `x`, `y`, `z`) "
+				+ "VALUES (?,?,?,?,?,?,?,?,?);";
+		if (connect()){
+			try{
+				PreparedStatement ps = connection.prepareStatement(q);
+				int i = 1;
+				ps.setString(i++, e.getUsername());
+				ps.setString(i++, e.getUuid().toString());
+				ps.setString(i++, e.getGroupKey());
+				ps.setString(i++, e.getItemKey());
+				ps.setString(i++, e.getCommandsenderName());
+				ps.setString(i++, e.getWorld());
+				ps.setInt(i++, e.getX());
+				ps.setInt(i++, e.getY());
+				ps.setInt(i++, e.getZ());
+				ps.executeUpdate();
+			}
+			catch (SQLException ex){
+				Logger.getLogger(MySqlDataRepository.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		else{
+			System.out.println("Failed to connect to the DB. Could not log rep.");
+		}
+	}
 	/**
 	 * Removes \r, splits by \n. *
 	 */

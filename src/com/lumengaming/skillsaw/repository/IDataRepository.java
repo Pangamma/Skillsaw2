@@ -2,6 +2,7 @@ package com.lumengaming.skillsaw.repository;
 
 import com.lumengaming.skillsaw.model.RepLogEntry;
 import com.lumengaming.skillsaw.model.RepType;
+import com.lumengaming.skillsaw.model.ScavengerHuntLogEntry;
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public interface IDataRepository {
 	
 	public void logPromotion(User suer, User target, SkillType st, int oLevel, int nLevel, Location location);
 	
+	public void logScavengerHuntEntry(ScavengerHuntLogEntry e);
 	//</editor-fold>
 
 	

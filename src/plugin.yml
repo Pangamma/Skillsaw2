@@ -6,14 +6,17 @@ main: com.lumengaming.skillsaw.Main
 description: A better system of showing skill level.
 depend: []
 commands:
+  scavengerhunt:
+    description: 'help'
+    aliases: ['shunt','elfhunt']
   skillsaw:
     description: 'help'
-    aliases: ['ssaw','skills','skill','skillsaw2','ss']
+    aliases: ['ssaw','skills','skill','skillsaw2']
   testlock:
     description: 'Lock the main thread.'
   setskill:
     description: 'for moderators only. Allows you to set the skill level for a user.'
-    aliases: ['skillset']
+    aliases: ['skillset','ss']
   title:
     description: 'set in game group name.'
     aliases: ['title']

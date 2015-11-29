@@ -2,6 +2,7 @@ package com.lumengaming.skillsaw.repository;
 
 import com.lumengaming.skillsaw.model.RepLogEntry;
 import com.lumengaming.skillsaw.model.RepType;
+import com.lumengaming.skillsaw.model.ScavengerHuntLogEntry;
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
 import java.io.File;
@@ -81,6 +82,11 @@ public class FlatFileDataRepository implements IDataRepository{
 
 	@Override
 	public ArrayList<User> getInstructors(){
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void logScavengerHuntEntry(ScavengerHuntLogEntry e){
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

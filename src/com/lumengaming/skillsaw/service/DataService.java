@@ -5,6 +5,7 @@ import com.lumengaming.skillsaw.STATIC;
 import com.lumengaming.skillsaw.model.MutedPlayer;
 import com.lumengaming.skillsaw.model.RepLogEntry;
 import com.lumengaming.skillsaw.model.RepType;
+import com.lumengaming.skillsaw.model.ScavengerHuntLogEntry;
 import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
 import com.lumengaming.skillsaw.repository.IDataRepository;
@@ -498,6 +499,12 @@ public class DataService {
 	public void logPromotion(User issuer, User target, SkillType st, int oLevel, int nLevel, Location location){
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			DataService.this.repo.logPromotion(issuer, target, st, oLevel, nLevel, location);
+		});
+	}
+	
+	public void logScavengerHuntEntry(ScavengerHuntLogEntry e){
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			DataService.this.repo.logScavengerHuntEntry(e);
 		});
 	}
 	//</editor-fold>

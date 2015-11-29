@@ -28,7 +28,8 @@ public class Main extends JavaPlugin {
         this.dataService = this.config.getDataService();
         this.dataService.onEnable();
 
-//        getCommand("testlock").setExecutor(new TestCommand(this));
+        getCommand("testlock").setExecutor(new TestCommand(this));
+        getCommand("scavengerhunt").setExecutor(new ScavengerHuntCommand(this));
         getCommand("staff").setExecutor(new StaffCommand(this));
         getCommand("instructor").setExecutor(new InstructorCommand(this));
         getCommand("title").setExecutor(new TitleCommand(this));
@@ -64,7 +65,11 @@ public class Main extends JavaPlugin {
      * @param args the command line arguments
      */
     public static void main(String[] args2){
-        // Some brief test code can go here.
+		int n = 23;
+		while(n % 9 != 0){
+			System.out.println(n+"...");
+			n++;
+		}
     }
 
     public ConfigHandler getConfigHandler(){
@@ -78,7 +83,7 @@ public class Main extends JavaPlugin {
     public MuteService getMuteService(){
         return muteService;
     }
-
+	
     private void printSyntax(boolean hideIfNoPermission, CsWrapper cs, PERMISSION permRequired, String cmdSyntax, String hoverText){
         if (STATIC.USER_HAS_PERMISSION(cs.getCs(), permRequired, false)){
             BaseComponent[] txt = CText.hoverText(STATIC.C_MENU_CONTENT + cmdSyntax, hoverText);

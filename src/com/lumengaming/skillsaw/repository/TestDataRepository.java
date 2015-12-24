@@ -111,4 +111,9 @@ public class TestDataRepository implements IDataRepository {
 	@Override
 	public void logScavengerHuntEntry(ScavengerHuntLogEntry e){
 	}
+
+    @Override
+    public ArrayList<RepLogEntry> getRepLogEntriesByTarget(UUID targetUuid, int maxResultsReturned, long minLogDate) {
+        return logEntryCache;
+    }
 }

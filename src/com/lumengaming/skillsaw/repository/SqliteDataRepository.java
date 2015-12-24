@@ -92,4 +92,9 @@ public class SqliteDataRepository implements IDataRepository{
 	public void logScavengerHuntEntry(ScavengerHuntLogEntry e){
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
+
+    @Override
+    public ArrayList<RepLogEntry> getRepLogEntriesByTarget(UUID targetUuid, int maxResultsReturned, long minLogDate) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

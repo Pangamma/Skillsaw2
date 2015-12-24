@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.UUID;    
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,14 +34,18 @@ public class MySqlDataRepository implements IDataRepository {
 	private final String host;
 	private Connection connection;
 	private final Main plugin;
+    private final boolean isReadOnly;
 
-	public MySqlDataRepository(Main p_plugin, String p_Host, int p_Port, String p_Username, String p_Password, String p_Database){
+	public MySqlDataRepository(Main p_plugin, String p_Host, int p_Port, 
+            String p_Username, String p_Password, String p_Database,
+            boolean p_isReadOnly){
 		this.plugin = p_plugin;
 		this.host = p_Host;
 		this.port = p_Port;
 		this.username = p_Username;
 		this.password = p_Password;
 		this.database = p_Database;
+        this.isReadOnly = p_isReadOnly;
 	}
 
 	@Override
@@ -81,55 +85,58 @@ public class MySqlDataRepository implements IDataRepository {
 
 	private boolean initTables(){
 		if (connect()){
-			try{
-				String q = "SHOW COLUMNS FROM `skillsaw_users` WHERE Field LIKE 's\\_%'";
-				PreparedStatement ps = connection.prepareStatement(q);
-				ResultSet rs = ps.executeQuery();
-				ArrayList<SkillType> typesFromDb = new ArrayList<>();
-				while (rs.next()){
-					typesFromDb.add(
-							new SkillType(
-									rs.getString("Field").replaceFirst("s_", ""),
-									"dummy",
-									rs.getInt("Default"), -1, -1, -1, "dummy", "dummy")
-					);
-				}
-				ArrayList<SkillType> sts = plugin.getConfigHandler().getSkillTypes();
+			if (!isReadOnly){
+                try{
+                    String q = "SHOW COLUMNS FROM `skillsaw_users` WHERE Field LIKE 's\\_%'";
+                    PreparedStatement ps = connection.prepareStatement(q);
+                    ResultSet rs = ps.executeQuery();
+                    ArrayList<SkillType> typesFromDb = new ArrayList<>();
+                    while (rs.next()){
+                        typesFromDb.add(
+                                new SkillType(
+                                        rs.getString("Field").replaceFirst("s_", ""),
+                                        "dummy",
+                                        rs.getInt("Default"), -1, -1, -1, "dummy", "dummy")
+                        );
+                    }
+                    ArrayList<SkillType> sts = plugin.getConfigHandler().getSkillTypes();
 
-				for (SkillType st : sts){
-					if (st.getKey().matches("([a-zA-Z0-9_]*)")){
-						SkillType dbSt = null;
-						for (SkillType dbT : typesFromDb){
-							if (dbT.getKey().equalsIgnoreCase(st.getKey())){
-								dbSt = dbT;
-								break;
-							}
-						}
-						if (dbSt != null){
-							if (dbSt.getDefLevel() != st.getDefLevel()){
-								System.out.println("SkillSaw: Changing default level for " + st.getKey() + " skill type.");
-								ps = connection.prepareStatement("ALTER TABLE `skillsaw_users`	CHANGE COLUMN `s_" + dbSt.getKey() + "` `s_" + dbSt.getKey() + "` INT(11) NOT NULL DEFAULT '" + st.getDefLevel() + "';");
-								ps.execute();
-							}
-							else{
-								// Everything matches. No need to change anything.
-							}
-						}
-						else{
-							System.out.println("SkillSaw: Adding " + st.getKey() + " skill type column to MySQL db.");
-							ps = connection.prepareStatement("ALTER TABLE `skillsaw_users` ADD COLUMN `s_" + st.getKey() + "` INT(11) NOT NULL DEFAULT '" + st.getDefLevel() + "'");
-							ps.execute();
-						}
-					}
-					else{
-						throw new IllegalArgumentException("Key for skill types must match this regex: ([a-zA-Z0-9_]*)");
-					}
-				}
-				return true;
-			}
-			catch (SQLException ex){
-				Logger.getLogger(MySqlDataRepository.class.getName()).log(Level.SEVERE, null, ex);
-			}
+                    for (SkillType st : sts){
+                        if (st.getKey().matches("([a-zA-Z0-9_]*)")){
+                            SkillType dbSt = null;
+                            for (SkillType dbT : typesFromDb){
+                                if (dbT.getKey().equalsIgnoreCase(st.getKey())){
+                                    dbSt = dbT;
+                                    break;
+                                }
+                            }
+                            if (dbSt != null){
+                                if (dbSt.getDefLevel() != st.getDefLevel()){
+                                    System.out.println("SkillSaw: Changing default level for " + st.getKey() + " skill type.");
+                                    ps = connection.prepareStatement("ALTER TABLE `skillsaw_users`	CHANGE COLUMN `s_" + dbSt.getKey() + "` `s_" + dbSt.getKey() + "` INT(11) NOT NULL DEFAULT '" + st.getDefLevel() + "';");
+                                    ps.execute();
+                                }
+                                else{
+                                    // Everything matches. No need to change anything.
+                                }
+                            }
+                            else{
+                                System.out.println("SkillSaw: Adding " + st.getKey() + " skill type column to MySQL db.");
+                                ps = connection.prepareStatement("ALTER TABLE `skillsaw_users` ADD COLUMN `s_" + st.getKey() + "` INT(11) NOT NULL DEFAULT '" + st.getDefLevel() + "'");
+                                ps.execute();
+                            }
+                        }
+                        else{
+                            throw new IllegalArgumentException("Key for skill types must match this regex: ([a-zA-Z0-9_]*)");
+                        }
+                    }
+                    return true; 
+                }catch (SQLException ex){
+                    Logger.getLogger(MySqlDataRepository.class.getName()).log(Level.SEVERE, null, ex);
+                }
+			}else{
+                return true; // read only. 
+            }
 		}
 		return false;
 	}
@@ -171,7 +178,7 @@ public class MySqlDataRepository implements IDataRepository {
 
 	@Override
 	public void createUser(User user){
-		if (connect()){
+		if (connect() && !isReadOnly){
 			try{
 				String q = "INSERT INTO `skillsaw_users` "
 						+ "(`uuid`, `username`,`display_name`, `ipv4`, `current_title`, `custom_titles`,"
@@ -234,7 +241,7 @@ public class MySqlDataRepository implements IDataRepository {
 		}
 		q += " WHERE `uuid` = ?";
 		try{
-			if (connect()){
+			if (connect() && !isReadOnly){
 				PreparedStatement ps = connection.prepareStatement(q);
 				int i = 1;
 				ps.setString(i++, u.getName());
@@ -404,7 +411,7 @@ public class MySqlDataRepository implements IDataRepository {
 	public void logRep(User issuer, User target, double amount, RepType repType, String reason){
 		String q = "INSERT INTO `replog` (`rep_type`,  `issuer_id`,  `target_id`,  `issuer_name`,  `target_name`,  `amount`,  `reason`) "
 				+ "VALUES (?,(SELECT `user_id` FROM `skillsaw_users` WHERE `uuid` = ?),(SELECT `user_id` FROM `skillsaw_users` WHERE `uuid` = ?),?,?,?,?);";
-		if (connect()){
+		if (connect() && !isReadOnly){
 			try{
 				PreparedStatement ps = connection.prepareStatement(q);
 				int i = 1;
@@ -453,7 +460,7 @@ public class MySqlDataRepository implements IDataRepository {
 		}
 		return output;
 	}
-
+    
 	@Override
 	public ArrayList<RepLogEntry> getRepLogEntriesByTarget(RepType type, UUID targetUuid, int maxResultsReturned, long minLogDate){
 		ArrayList<RepLogEntry> output = new ArrayList<>();
@@ -483,7 +490,37 @@ public class MySqlDataRepository implements IDataRepository {
 		}
 		return output;
 	}
-
+    
+    @Override
+	public ArrayList<RepLogEntry> getRepLogEntriesByTarget(UUID targetUuid, int maxResultsReturned, long minLogDate){
+		ArrayList<RepLogEntry> output = new ArrayList<>();
+		String q
+				= "SELECT r.*,t.uuid as `target_uuid`,t.uuid as `issuer_uuid` FROM replog r\n "
+				+ "INNER JOIN skillsaw_users i ON i.user_id = r.issuer_id\n "
+				+ "INNER JOIN skillsaw_users t ON t.user_id = r.target_id\n "
+				+ "WHERE t.uuid = ? AND r.time >= ? "
+				+ " ORDER BY r.`id` DESC "
+				+ " limit " + maxResultsReturned;
+		if (connect()){
+			try{
+				PreparedStatement ps = connection.prepareStatement(q);
+				ps.setString(1, targetUuid.toString());
+				ps.setTimestamp(2, new Timestamp(minLogDate));
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()){
+					RepLogEntry e = readRepLogEntry(rs);
+					if (e != null){
+						output.add(e);
+					}
+				}
+			}
+			catch (SQLException ex){
+				Logger.getLogger(MySqlDataRepository.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return output;
+	}
+    
 	@Override
 	public ArrayList<RepLogEntry> getRepLogEntriesByIssuer(RepType type, UUID issuerUuid, int maxResultsReturned, long minLogDate){
 
@@ -536,7 +573,7 @@ public class MySqlDataRepository implements IDataRepository {
 	public void logPromotion(User issuer, User target, SkillType st, int oLevel, int nLevel, Location l){
 		String q = "INSERT INTO `promo_log` (`skill_type`,  `issuer_id`,  `target_id`,  `issuer_name`,  `target_name`,  `olevel`,`nlevel`,  `location`) "
 				+ "VALUES (?,IFNULL((SELECT `user_id` FROM `skillsaw_users` WHERE `uuid` = ?),-1),IFNULL((SELECT `user_id` FROM `skillsaw_users` WHERE `uuid` = ?),-1),?,?,?,?,?);";
-		if (connect()){
+		if (connect() && !isReadOnly){
 			try{
 				PreparedStatement ps = connection.prepareStatement(q);
 				int i = 1;
@@ -563,7 +600,7 @@ public class MySqlDataRepository implements IDataRepository {
 		String q = "INSERT INTO `skillsaw`.`scavenger_hunt` "
 				+ "(`username`, `uuid`, `group_key`, `item_key`, `command_sender`, `world`, `x`, `y`, `z`) "
 				+ "VALUES (?,?,?,?,?,?,?,?,?);";
-		if (connect()){
+		if (connect() && !isReadOnly){
 			try{
 				PreparedStatement ps = connection.prepareStatement(q);
 				int i = 1;

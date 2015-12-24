@@ -130,7 +130,8 @@ public class ConfigHandler {
                 String user = getOrSet(config,"mysql.user","skillsaw_user");
                 String pass = getOrSet(config,"mysql.pass","password");
                 String dbName = getOrSet(config, "mysql.database", "skillsaw");
-                this.dataService = new DataService(plugin, new MySqlDataRepository(plugin,host,port,user,pass,dbName));
+                boolean isReadOnly = getOrSet(config,"mysql.is-read-only",false);
+                this.dataService = new DataService(plugin, new MySqlDataRepository(plugin,host,port,user,pass,dbName,isReadOnly));
                 break;
 //                
 //            case "FLAT_FILE":

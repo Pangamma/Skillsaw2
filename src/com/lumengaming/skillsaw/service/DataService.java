@@ -10,6 +10,7 @@ import com.lumengaming.skillsaw.model.SkillType;
 import com.lumengaming.skillsaw.model.User;
 import com.lumengaming.skillsaw.repository.IDataRepository;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -40,6 +41,7 @@ public class DataService {
 			}
 			return true;
 		}
+        Bukkit.broadcastMessage("22");
 		return false;
 	}
 
@@ -333,7 +335,8 @@ public class DataService {
 				callback.doCallback(u);
 			});
 		});
-	}	
+	}
+	
 	/**
 	 * All users from the database where is_instructor = 1 will be returned. Ordered
 	 * by most recent login. 
@@ -461,6 +464,7 @@ public class DataService {
 	public void getLogEntries(RepType type, int maxResultsReturned, AsyncManyCallback<RepLogEntry> callback){
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			ArrayList<RepLogEntry> result = DataService.this.repo.getRepLogEntries(type, maxResultsReturned);
+            sortLogEntriesDateAscending(result);
 			Bukkit.getScheduler().runTask(plugin, () -> {
 				callback.doCallback(result);
 			});
@@ -470,12 +474,24 @@ public class DataService {
 	public void getLogEntriesByTarget(RepType type, UUID targetUuid, int maxResultsReturned, long minLogDate, AsyncManyCallback<RepLogEntry> callback){
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			ArrayList<RepLogEntry> result = DataService.this.repo.getRepLogEntriesByTarget(type, targetUuid, maxResultsReturned, minLogDate);
-			Bukkit.getScheduler().runTask(plugin, () -> {
+			sortLogEntriesDateAscending(result);
+            Bukkit.getScheduler().runTask(plugin, () -> {
+				callback.doCallback(result);
+			});
+		});
+	}
+    public void getLogEntriesByTarget(UUID targetUuid, int maxResultsReturned, long minLogDate, AsyncManyCallback<RepLogEntry> callback){
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			ArrayList<RepLogEntry> result = DataService.this.repo.getRepLogEntriesByTarget(targetUuid, maxResultsReturned, minLogDate);
+			sortLogEntriesDateAscending(result);
+            Bukkit.getScheduler().runTask(plugin, () -> {
 				callback.doCallback(result);
 			});
 		});
 	}
 
+
+    
 	public void getLogEntriesByTarget(RepType type, UUID targetUuid, AsyncManyCallback<RepLogEntry> callback){
 		getLogEntriesByTarget(type, targetUuid, 1000, (System.currentTimeMillis() - 86400000), callback);
 	}
@@ -483,7 +499,8 @@ public class DataService {
 	public void getLogEntriesByIssuer(RepType type, UUID issuerUuid, int maxResultsReturned, long minLogDate, AsyncManyCallback<RepLogEntry> callback){
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			ArrayList<RepLogEntry> result = DataService.this.repo.getRepLogEntriesByIssuer(type, issuerUuid, maxResultsReturned, minLogDate);
-			Bukkit.getScheduler().runTask(plugin, () -> {
+			sortLogEntriesDateAscending(result);
+            Bukkit.getScheduler().runTask(plugin, () -> {
 				callback.doCallback(result);
 			});
 		});
@@ -492,7 +509,15 @@ public class DataService {
 	public void getLogEntriesByIssuer(RepType type, UUID issuerUuid, AsyncManyCallback<RepLogEntry> callback){
 		getLogEntriesByIssuer(type, issuerUuid, 1000, (System.currentTimeMillis() - 86400000), callback);
 	}
-
+    
+    private void sortLogEntriesDateAscending(ArrayList<RepLogEntry> p_toBeSorted){
+        p_toBeSorted.sort(new Comparator<RepLogEntry>(){
+                @Override
+                public int compare(RepLogEntry t, RepLogEntry t1) {
+                    return t.getId() - t1.getId();
+                }
+            });
+    }
 	/**
 	 * Log a skilltype level change. *
 	 */

@@ -37,6 +37,10 @@ public class ViewLogCommand implements CommandExecutor {
 				case "replog":
 					getLogs(cs, RepType.NaturalRep, args[0]);
 					break;
+				case "vlog":
+				case "viewlog":
+					getLogs(cs, args[0]);
+					break;
 				case "sreplog":
 					getLogs(cs, RepType.StaffRep, args[0]);
 					break;
@@ -76,7 +80,7 @@ public class ViewLogCommand implements CommandExecutor {
 			ds.getLogEntriesByTarget(rt, target.getUuid(), 15, 0, (ArrayList<RepLogEntry> entries) -> {
 				boolean colorA = false;
 				cs.sendMessage(STATIC.C_DIV_LINE);
-				cs.sendMessage(STATIC.C_DIV_TITLE_PREFIX + rt.name() + " Log Entries");
+				cs.sendMessage(STATIC.C_DIV_TITLE_PREFIX + rt.name() + " Log Entries for "+target.getName());
 				cs.sendMessage(STATIC.C_DIV_LINE);
 				for (RepLogEntry e : entries){
 					colorA = !colorA;
@@ -93,6 +97,38 @@ public class ViewLogCommand implements CommandExecutor {
 		return true;
 	}
 
+    private boolean getLogs(CsWrapper cs, String targetName) {
+		DataService ds = plugin.getDataService();
+		// do they have permission?
+		if (!STATIC.USER_HAS_PERMISSION(cs.getCs(), STATIC.PERMISSION.ALL)){
+			return false;
+		}
+
+		ds.getOfflineUser(targetName, true, (User target) -> {
+			if (target == null){
+				cs.sendMessage(STATIC.ERROR_P_NOT_FOUND);
+				return;
+			}
+			ds.getLogEntriesByTarget(target.getUuid(), 15, 0, (ArrayList<RepLogEntry> entries) -> {
+				boolean colorA = false;
+				cs.sendMessage(STATIC.C_DIV_LINE);
+				cs.sendMessage(STATIC.C_DIV_TITLE_PREFIX + " * Log Entries for "+target.getName());
+				cs.sendMessage(STATIC.C_DIV_LINE);
+				for (RepLogEntry e : entries){
+					colorA = !colorA;
+					String c1 = colorA ? "§7" : "§8";
+					String c2 = colorA ? "§a" : "§2";
+					String reason = e.getReason();
+					String name = e.getIssuerName();
+					Timestamp time = e.getTime();
+					cs.sendMessage(CText.hoverText(c1 + "["+e.getType().name()+"][" + c2 + e.getAmount() + c1 + "] " + c2 + name + c1 + " -> " + c2 + reason, e.getTime().toString()));
+				}
+				cs.sendMessage(STATIC.C_DIV_LINE);
+			});
+		});
+		return true;
+    }
+
 	private void printHelp(CommandSender p_cs){
 		CsWrapper cs = new CsWrapper(p_cs);
 		BaseComponent[] txt = CText.hoverText("§c/replog [target]", "§cView " + RepType.NaturalRep.name() + "(s) given to a player.");
@@ -107,6 +143,8 @@ public class ViewLogCommand implements CommandExecutor {
 		txt = CText.hoverText("§c/notes [target]", "§cView " + RepType.Note.name() + "(s) given to a player.");
 		CText.applyEvent(txt, new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/notes "));
 		cs.sendMessage(txt);
+		txt = CText.hoverText("§c/viewlog [target]", "§cView all rep type entries given to a player.");
+		CText.applyEvent(txt, new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/viewlog "));
+		cs.sendMessage(txt);
 	}
-
 }

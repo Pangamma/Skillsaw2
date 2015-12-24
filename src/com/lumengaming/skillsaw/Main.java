@@ -9,6 +9,7 @@ import com.lumengaming.skillsaw.service.MuteService;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
     private MuteService muteService;
 	private MuteCommand muteCommand;
 
+    @Override
     public void onEnable(){
         this.config = new ConfigHandler(this).load();
         this.muteService = new MuteService(this);
@@ -56,7 +58,9 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
+    @Override
     public void onDisable(){
+		HandlerList.unregisterAll(this);
         this.dataService.onDisable();
         Bukkit.getScheduler().cancelTasks(this);
     }

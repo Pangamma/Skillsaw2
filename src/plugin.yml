@@ -58,7 +58,7 @@ commands:
     description: 'Changes your default chat color.'
   replog:
     description: 'View logs for a player. Rep logs.'
-    aliases: ['sreplog','xreplog','notes']
+    aliases: ['sreplog','xreplog','notes','viewlog','vlog']
   staff:
     description: 'find staff, manage staff membership'
     aliases: ['staff','setstaff','staffset']
